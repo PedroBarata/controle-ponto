@@ -39,9 +39,9 @@ export class LanguageTranslationModule {
     private translate: TranslateService,
   ) {
     // Gets Default language from browser if available, otherwise set English ad default
-    this.translate.addLangs(['pt','en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
-    this.translate.setDefaultLang('pt');
+    this.translate.addLangs(['pt_BR']);
+    this.translate.setDefaultLang('pt_BR');
     const browserLang = this.translate.getBrowserLang();
-    this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
+    this.translate.use(browserLang.match(/pt_BR/) ? browserLang : 'pt_BR');
   }
 }

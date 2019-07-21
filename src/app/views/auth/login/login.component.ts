@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
   selector: 'app-login',
@@ -6,12 +9,24 @@ import { Component, OnInit } from '@angular/core';
   styles: []
 })
 export class LoginComponent implements OnInit {
+  public form: FormGroup;
 
-  constructor() { }
+  constructor(private router: Router, private utils: UtilsService) { }
 
   ngOnInit() {
     console.log("entrou");
-
+    this.form = new FormGroup({
+      login: new FormControl(null, Validators.required),
+      password: new FormControl(null, Validators.required),
+    });
   }
 
+  onSubmitForm() {
+    console.log("entrou");
+    this.utils.onLoading();
+    setTimeout(() => {
+      this.router.navigateByUrl('/app/home');
+      this.utils.dismissLoading();
+    }, 500);
+  }
 }

@@ -1,0 +1,9 @@
+{
+  "app": {
+    "sidebar": {
+      "home": "Home",
+      "collapse": "Diminuir Sidebar",
+      "logout": "Sair"
+    }
+  }
+}
