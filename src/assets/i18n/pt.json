@@ -1,0 +1,35 @@
+{
+  "app": {
+    "sidebar": {
+      "Dashboard": "Dashboard",
+      "Charts": "Gráficos",
+      "Tables": "Tabelas",
+      "Forms": "Formulários",
+      "Component": "Componentes",
+      "Language": "Idioma",
+      "English": "Inglês",
+      "French": "Francês",
+      "Urdu": "Urdu",
+      "Spanish": "Espanhol",
+      "Italian": "Italiano",
+      "Farsi": "Farsi",
+      "German": "Alemão",
+      "Search": "Busca",
+      "Settings": "Ajustes",
+      "Profile": "Perfil",
+      "Inbox": "Mensagens",
+      "Log Out": "Logout",
+      "Pending Task": "Tarefas pendentes",
+      "In queue": "Em fila",
+      "Mail": "Correio",
+      "View All": "Ver tudo",
+      "Collapse Sidebar": "Contrair barra lateral",
+      "Full Name": "Nome Completo",
+      "Email": "E-mail",
+      "Password": "Senha",
+      "Repeat Password": "Repetir Senha",
+      "Register": "Registrar-se",
+      "Log in": "Entrar"
+    }
+  }
+}
