@@ -1,0 +1,8 @@
+<div
+  class="alert"
+  *ngIf="notification?.isPresent"
+  [ngClass]="checkType(notification?.type)"
+>
+  <b>{{ "app.notification.title." + title | translate }}</b> <br />
+  {{ notification?.msg }}
+</div>

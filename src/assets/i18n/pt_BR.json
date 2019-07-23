@@ -5,6 +5,14 @@
       "collapse": "Diminuir Sidebar",
       "logout": "Sair"
     },
+    "notification": {
+      "title": {
+        "success": "Sucesso",
+        "error": "Erro",
+        "warning": "Aviso",
+        "info": "Info"
+      }
+    },
     "views": {
       "home": {
         "title": "Home",

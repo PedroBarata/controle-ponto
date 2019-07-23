@@ -1,3 +1,30 @@
-<div class="col-lg-12">
-    <button type="button" class="btn btn-lg btn-success"><i class="fa fa-play"></i></button>
+<div class="row">
+  <div class="col-lg-12">
+    <button
+      type="button"
+      *ngIf="!isStarted"
+      class="btn btn-lg btn-success"
+      (click)="onClickButton(actions.Started)"
+    >
+      <i class="fa fa-play"></i>
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-lg btn-warning"
+      *ngIf="isStarted"
+      (click)="onClickButton(actions.Paused)"
+    >
+      <i class="fa fa-pause"></i>
+    </button>
+
+    <button
+      type="button"
+      [disabled]="!isStarted"
+      class="btn btn-lg btn-danger"
+      (click)="onClickButton(actions.Stopped)"
+    >
+      <i class="fa fa-stop"></i>
+    </button>
+  </div>
 </div>

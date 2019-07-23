@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { Subject } from "rxjs";
+import { NotificationUI, TypeNotifcation } from "../model/notification.ui";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class UtilsService {
   private _loadingListener = new Subject<boolean>();
 
-  constructor() {
-  }
+  constructor() {}
 
   getLoadingListener() {
     return this._loadingListener.asObservable();
@@ -22,5 +22,11 @@ export class UtilsService {
     this._loadingListener.next(false);
   }
 
+  onPresentNotification(msg: string, type: TypeNotifcation) {
+   return { msg: msg, type: type, isPresent: true };
+  }
 
+  dismissNotification() {
+    return { isPresent: false };
+  }
 }

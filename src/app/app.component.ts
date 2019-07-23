@@ -1,6 +1,7 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { UtilsService } from "./services/utils.service";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
+import { NotificationUI } from "./model/notification.ui";
+import { UtilsService } from "./services/utils.service";
 
 @Component({
   selector: "app-root",
@@ -9,6 +10,7 @@ import { Subscription } from "rxjs";
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = "controle-ponto";
+
   isLoading = false;
   loadingStatusSub: Subscription;
 
