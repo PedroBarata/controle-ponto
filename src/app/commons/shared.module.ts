@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { PageSubheaderComponent } from './components/page-subheader/page-subheader.component';
 
 const MODULES = [
   FormsModule, ReactiveFormsModule, RouterModule,
@@ -22,6 +23,7 @@ const PIPES = [
 ];
 
 const COMPONENTS = [
+  PageSubheaderComponent
 ];
 
 @NgModule({

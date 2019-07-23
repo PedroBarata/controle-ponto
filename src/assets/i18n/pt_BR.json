@@ -4,6 +4,28 @@
       "home": "Home",
       "collapse": "Diminuir Sidebar",
       "logout": "Sair"
+    },
+    "views": {
+      "home": {
+        "title": "Home",
+        "morning": "Bom dia",
+        "noon": "Boa tarde",
+        "night": "Boa noite"
+      }
+    },
+    "months": {
+      "january": "janeiro",
+      "february": "fevereiro",
+      "march": "março",
+      "april": "abril",
+      "may": "maio",
+      "june": "junho",
+      "july": "julho",
+      "august": "agosto",
+      "september": "setembro",
+      "october": "outubro",
+      "november": "novembro",
+      "december": "dezembro"
     }
   }
 }
