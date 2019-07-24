@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UtilsService } from 'src/app/services/utils.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -11,10 +12,9 @@ import { UtilsService } from 'src/app/services/utils.service';
 export class LoginComponent implements OnInit {
   public form: FormGroup;
 
-  constructor(private router: Router, private utils: UtilsService) { }
+  constructor(private router: Router, private utils: UtilsService, private authService: AuthService) { }
 
   ngOnInit() {
-    console.log("entrou");
     this.form = new FormGroup({
       email: new FormControl(null, Validators.required),
       password: new FormControl(null, Validators.required),
@@ -22,12 +22,22 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmitForm() {
+    const user = this.form.value;
     console.log( this.form.get('email').hasError);
 
     this.utils.onLoading();
-    setTimeout(() => {
-      this.router.navigateByUrl('/app/home');
-      this.utils.dismissLoading();
-    }, 500);
+    this.authService.login(user).subscribe(
+      response => {
+        console.log(response);
+
+        this.authService.loginHandler(response);
+        this.router.navigate(["/app/home"]);
+        this.utils.dismissLoading();
+      },
+      error => {
+        this.authService.setAuthListener();
+        this.utils.dismissLoading();
+      }
+    );
   }
 }

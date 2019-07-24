@@ -15,8 +15,8 @@ export class SignupComponent implements OnInit {
   constructor(private router: Router, private utils: UtilsService, private authService: AuthService) { }
 
   ngOnInit() {
-    console.log("entrou");
     this.form = new FormGroup({
+      displayName: new FormControl(null, [Validators.required]),
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, Validators.required),
     });
@@ -24,9 +24,6 @@ export class SignupComponent implements OnInit {
 
   onSubmitForm() {
     const user = this.form.value;
-    console.log(user);
-
-    console.log(this.form.errors);
     this.utils.onLoading();
     this.authService.createUser(user).subscribe(
       response => {

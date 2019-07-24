@@ -4,8 +4,21 @@
       <div class="card-header">Registrar</div>
       <div class="card-body">
         <form [formGroup]="form" (ngSubmit)="onSubmitForm()" novalidate>
+          <label>Nome</label>
+          <input
+            formControlName="displayName"
+            required
+            class="form-control"
+            autocomplete="username"
+          />
+
           <label>E-Mail</label>
-          <input formControlName="email" required class="form-control" autocomplete="username"/>
+          <input
+            formControlName="email"
+            required
+            class="form-control"
+            autocomplete="username"
+          />
 
           <label>Senha</label>
           <input
@@ -16,7 +29,13 @@
             autocomplete="current-password"
           />
           <div class="text-center pt-3">
-            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Enviar</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="form.invalid"
+            >
+              Enviar
+            </button>
           </div>
         </form>
         <div class="text-center pt-3">

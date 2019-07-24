@@ -4,7 +4,8 @@
       type="button"
       *ngIf="!isStarted"
       class="btn btn-lg btn-success"
-      (click)="onClickButton(actions.Started)"
+      [disabled]="ponto?.saida"
+      (click)="onClickButton(status.Started)"
     >
       <i class="fa fa-play"></i>
     </button>
@@ -13,7 +14,7 @@
       type="button"
       class="btn btn-lg btn-warning"
       *ngIf="isStarted"
-      (click)="onClickButton(actions.Paused)"
+      (click)="onClickButton(status.Paused)"
     >
       <i class="fa fa-pause"></i>
     </button>
@@ -22,7 +23,7 @@
       type="button"
       [disabled]="!isStarted"
       class="btn btn-lg btn-danger"
-      (click)="onClickButton(actions.Stopped)"
+      (click)="onClickButton(status.Stopped)"
     >
       <i class="fa fa-stop"></i>
     </button>

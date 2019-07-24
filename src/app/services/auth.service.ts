@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
-import { Router } from "@angular/router";
 
 import { environment } from "../../environments/environment";
 import { User } from "../model/user.model";
@@ -15,11 +14,16 @@ export class AuthService {
   private tokenTimer: any; //Nao reconheceu o NodeJs.Timer, por isso o any
   private isAuthenticated = false;
   private userId: string;
+  private displayName: string;
   private authListener = new Subject<boolean>();
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient) {}
 
   getToken() {
     return this.token;
+  }
+
+  getDisplayName() {
+    return this.displayName;
   }
 
   getIsAuth() {
@@ -39,49 +43,40 @@ export class AuthService {
   }
 
   createUser(user: User) {
-    return this.http
-      .post(
-        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`,
-        user
-      )
-
+    return this.http.post(
+      `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`,
+      user
+    );
   }
 
-  login(email: string, password: string) {
+  login(user: User) {
     const authData = {
-      email: email,
-      password: password,
+      email: user.email,
+      password: user.password,
       returnSecureToken: true
     };
     const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`;
 
-    this.http.post<any>(url, authData).subscribe(
-      response => {
-        this.loginHandler(response);
-      },
-      error => {
-        this.authListener.next(false);
-      }
-    );
+   return this.http.post(url, authData);
   }
 
   loginHandler(response) {
-    const token = response.data.idToken;
-    const expiresInDuration = response.data.expiresIn;
+    const token = response.idToken;
+    const expiresInDuration = response.expiresIn;
+
     this.setAuthTimer(expiresInDuration);
     this.token = token;
     if (token) {
       this.isAuthenticated = true;
       const now = new Date();
-      this.userId = response.data.localId;
+      this.userId = response.localId;
+      this.displayName = response.displayName;
+
       /* Soma-se a expiração à data atual, em milisegundos */
-      const expirationDate = new Date(
-        now.getTime() + expiresInDuration * 1000
-      );
+      const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
 
       this.authListener.next(true);
-      this.saveAuthData(token, expirationDate, this.userId);
-
+      this.saveAuthData(token, expirationDate, this.userId,  this.displayName);
     }
   }
 
@@ -92,7 +87,7 @@ export class AuthService {
     this.authListener.next(false);
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
-    this.router.navigate(["/auth"]);
+
   }
 
   autoAuthUser() {
@@ -108,6 +103,8 @@ export class AuthService {
       this.token = authInformation.token;
       this.isAuthenticated = true;
       this.userId = authInformation.userId;
+      this.displayName = authInformation.displayName;
+
       this.setAuthTimer(
         expiresIn / 1000
       ); /* divide por 1000 pois depois ele multiplica, e já está em ms */
@@ -126,29 +123,35 @@ export class AuthService {
   /* Aqui é interessante passar um Date e não um número,
   que é um número relativo e não teremos uma ideia clara
   da data quando voltarmos no futuro */
-  private saveAuthData(token: string, expirationDate: Date, userId: string) {
+  private saveAuthData(token: string, expirationDate: Date, userId: string, displayName) {
     localStorage.setItem("token", token);
     localStorage.setItem("expiration", expirationDate.toISOString());
     localStorage.setItem("userId", userId);
+    localStorage.setItem("displayName", displayName);
+
   }
 
   private clearAuthData() {
     localStorage.removeItem("token");
     localStorage.removeItem("expiration");
     localStorage.removeItem("userId");
+    localStorage.removeItem("displayName");
   }
 
   private getAuthData() {
     const token = localStorage.getItem("token");
     const expirationDate = localStorage.getItem("expiration");
     const userId = localStorage.getItem("userId");
+    const displayName = localStorage.getItem("displayName");
+
     if (!token || !expirationDate) {
       return;
     }
     return {
       token: token,
       userId: userId,
-      expirationDate: new Date(expirationDate)
+      expirationDate: new Date(expirationDate),
+      displayName: displayName
     };
   }
 }

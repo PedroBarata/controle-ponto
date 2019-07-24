@@ -41,5 +41,14 @@ export class ErrorService {
     if (error === "EMAIL_ALREADY_IN_USE") {
       return this.translate.instant("app.errors.email_already_in_use");
     }
+    if (error === "EMAIL_EXISTS") {
+      return this.translate.instant("app.errors.email_exists");
+    }
+    if(error === "EMAIL_NOT_FOUND") {
+      return this.translate.instant("app.errors.email_not_found");
+    }
+    if(error === "INVALID_PASSWORD") {
+      return this.translate.instant("app.errors.invalid_password");
+    }
   }
 }

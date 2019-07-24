@@ -1,26 +1,47 @@
-import { Injectable } from "@angular/core";
-import { Actions } from "../model/ponto.model";
+import { Status, Ponto } from "../model/ponto.model";
 import { UtilsService } from "./utils.service";
 import { TypeNotifcation } from "../model/notification.ui";
+import { environment } from "src/environments/environment";
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: "root"
 })
-export class ActionService {
-  constructor(private utils: UtilsService) {}
 
-  sendInfo(action: Actions) {
+export class ActionService {
+  private BACKEND_URL = environment.apiUrl + "/ponto.json";
+
+  constructor(private utils: UtilsService, private http: HttpClient) {}
+
+  onStartDay(ponto) {
+    return this.http.post(this.BACKEND_URL, ponto);
+  }
+
+  updateDay(ponto) {
+    return this.http.put(this.BACKEND_URL, ponto);
+  }
+
+  getDay(ponto) {
+    return this.http.get<Ponto>(this.BACKEND_URL, ponto);
+  }
+
+  sendInfo(status: Status) {
     const now = new Date();
     const minutes =
       now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes();
     let message = "";
-    if (action.valueOf() === Actions.Paused) {
-      message = `Dia pausado às ${now.getHours()}:${minutes}`;
-    }
-    if (action.valueOf() === Actions.Started) {
+    if (status.valueOf() === Status.Started) {
       message = `Perfeito, seu dia começou às ${now.getHours()}:${minutes}`;
     }
-    if (action.valueOf() === Actions.Stopped) {
+    if (status.valueOf() === Status.Paused) {
+      message = `Dia pausado às ${now.getHours()}:${minutes}`;
+    }
+    if (status.valueOf() === Status.Returned) {
+      message = `Retornou do almoço às ${now.getHours()}:${minutes}`;
+    }
+    if (status.valueOf() === Status.Stopped) {
       message = `Seu dia terminou às ${now.getHours()}:${minutes}, bom descanso!`;
     }
 

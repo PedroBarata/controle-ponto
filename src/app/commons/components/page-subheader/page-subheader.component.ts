@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { DateService } from "src/app/services/date.service";
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: "app-page-subheader",
@@ -12,12 +13,14 @@ export class PageSubheaderComponent implements OnInit {
 
   public subtitle: string = "";
   public breadcrumb: string = "";
-  constructor(private dateService: DateService) {}
+  public displayName: string;
+  constructor(private dateService: DateService, private authService: AuthService) {}
 
   ngOnInit() {
     const now = new Date();
     this.formatBreadCrumb(now);
     this.subtitle = this.dateService.getHour(now);
+    this.displayName = this.authService.getDisplayName();
   }
 
   formatBreadCrumb = (date: Date) => {

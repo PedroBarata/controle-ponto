@@ -6,7 +6,7 @@
         </a>
     </div>
     <div class="list-group">
-        <a routerLink="/auth/login" class="list-group-item">
+        <a (click)="onLoggedout()" class="list-group-item">
           <i class="fa fa-fw fa-sign-out"></i>&nbsp;
           <span>{{ 'app.sidebar.logout' | translate }}</span>
       </a>

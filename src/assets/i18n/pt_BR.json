@@ -45,7 +45,10 @@
       "wrong_password": "Senha errada",
       "user_mismatch":"A senha informada não corresponde ao usuário previamente logado",
       "account_exists_with_different_credential": "Este e-mail já existe, com outra senha",
-      "email_already_in_use": "Este e-mail já se encontra em uso"
+      "email_already_in_use": "Este e-mail já se encontra em uso",
+      "email_exists": "Este e-mail já existe",
+      "email_not_found": "E-mail não encontrado",
+      "invalid_password": "Senha inválida"
     }
   }
 }

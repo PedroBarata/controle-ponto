@@ -18,8 +18,6 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private utils: UtilsService, private authService: AuthService) {}
 
   ngOnInit() {
-    this.authService.autoAuthUser();
-
     this.loadingStatusSub = this.utils
       .getLoadingListener()
       .subscribe(loadingStatus => {

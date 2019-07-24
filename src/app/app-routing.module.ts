@@ -3,9 +3,9 @@ import { Routes, RouterModule } from "@angular/router";
 import { BlankLayoutComponent } from "./commons/layout/blank-layout/blank-layout.component";
 import { AuthLayoutComponent } from "./commons/layout/auth-layout/auth-layout.component";
 import { AdminLayoutComponent } from "./commons/layout/admin-layout/admin-layout.component";
+import { AuthGuard } from "./commons/shared";
 
 const routes: Routes = [
-  {path: "", component: AdminLayoutComponent},
   {
     path: "",
     component: BlankLayoutComponent,
@@ -20,8 +20,13 @@ const routes: Routes = [
       {
         path: "app",
         component: AdminLayoutComponent,
+
         children: [
-          { path: "home", loadChildren: "./views/home/home.module#HomeModule" }
+          {
+            path: "home",
+            loadChildren: "./views/home/home.module#HomeModule",
+            canActivate: [AuthGuard]
+          }
         ]
       }
     ]
@@ -30,6 +35,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthGuard]
 })
 export class AppRoutingModule {}

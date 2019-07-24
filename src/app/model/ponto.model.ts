@@ -1,12 +1,16 @@
-export enum Actions {
+export enum Status {
   "Started",
   "Paused",
+  "Returned",
   "Stopped"
 }
 
 export interface Ponto {
-  entrada: Date;
-  saida: Date;
-  inicioAlmoco?: Date;
-  voltaAlmoco?: Date;
+  id: string,
+  userId: string,
+  entrada?: string;
+  saida?: string;
+  status: Status;
+  inicioAlmoco?: string;
+  voltaAlmoco?: string;
 }
