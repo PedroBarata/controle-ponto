@@ -34,6 +34,18 @@
       "october": "outubro",
       "november": "novembro",
       "december": "dezembro"
+    },
+    "errors": {
+      "invalid_email": "E-mail inválido",
+      "weak_password": "Senha fraca",
+      "user_exists": "Usuário já existente",
+      "invalid_custom_token": "Token inválido",
+      "custom_token_mismatch": "O Token corresponde à outra conta atualmente",
+      "invalid_credential": "Senha inválida",
+      "wrong_password": "Senha errada",
+      "user_mismatch":"A senha informada não corresponde ao usuário previamente logado",
+      "account_exists_with_different_credential": "Este e-mail já existe, com outra senha",
+      "email_already_in_use": "Este e-mail já se encontra em uso"
     }
   }
 }
