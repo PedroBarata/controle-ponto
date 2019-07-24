@@ -1,8 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { DateService } from "src/app/services/date.service";
+import { NotificationUI } from "src/app/model/notification.ui";
 import { Actions } from "src/app/model/ponto.model";
-import { UtilsService } from "src/app/services/utils.service";
-import { TypeNotifcation, NotificationUI } from "src/app/model/notification.ui";
+import { ActionService } from 'src/app/services/action.service';
 
 @Component({
   selector: "app-default-home",
@@ -11,27 +10,11 @@ import { TypeNotifcation, NotificationUI } from "src/app/model/notification.ui";
 })
 export class DefaultHomeComponent implements OnInit {
   public notification: NotificationUI;
-  constructor(private utils: UtilsService) {}
+  constructor(private actionService: ActionService) {}
 
   ngOnInit() {}
 
   onSubmitAction(action: Actions) {
-    this.notification = this.utils.onPresentNotification(
-      this.formatAction(action),
-      TypeNotifcation.success
-    );
-  }
-
-  formatAction(action: Actions) {
-    const now = new Date();
-    if(action.valueOf() === Actions.Paused) {
-      return `Dia pausado às ${now.getHours()}:${now.getMinutes()}`
-    }
-    if(action.valueOf() === Actions.Started) {
-      return `Perfeito, seu dia começou às ${now.getHours()}:${now.getMinutes()}`
-    }
-    if(action.valueOf() === Actions.Stopped) {
-      return `Seu dia terminou às ${now.getHours()}:${now.getMinutes()}, bom descanso!`
-    }
+    this.actionService.sendInfo(action);
   }
 }

@@ -16,13 +16,14 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     console.log("entrou");
     this.form = new FormGroup({
-      login: new FormControl(null, Validators.required),
+      email: new FormControl(null, Validators.required),
       password: new FormControl(null, Validators.required),
     });
   }
 
   onSubmitForm() {
-    console.log("entrou");
+    console.log( this.form.get('email').hasError);
+
     this.utils.onLoading();
     setTimeout(() => {
       this.router.navigateByUrl('/app/home');

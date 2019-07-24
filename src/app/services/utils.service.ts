@@ -7,6 +7,7 @@ import { NotificationUI, TypeNotifcation } from "../model/notification.ui";
 })
 export class UtilsService {
   private _loadingListener = new Subject<boolean>();
+  private _notificationListener = new Subject<NotificationUI>();
 
   constructor() {}
 
@@ -22,11 +23,17 @@ export class UtilsService {
     this._loadingListener.next(false);
   }
 
+  getNotificationListener() {
+    return this._notificationListener.asObservable();
+  }
+
   onPresentNotification(msg: string, type: TypeNotifcation) {
-   return { msg: msg, type: type, isPresent: true };
+   this._notificationListener.next({ msg: msg, type: type, isPresent: true });
   }
 
   dismissNotification() {
-    return { isPresent: false };
+    this._notificationListener.next({ isPresent: false });
   }
+
+
 }
