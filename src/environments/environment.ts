@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: "https://controle-ponto-7d91e.firebaseio.com/"
+  apiUrl: "https://controle-ponto-7d91e.firebaseio.com"
 };
 
 /*

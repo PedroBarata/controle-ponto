@@ -2,6 +2,7 @@
   "app": {
     "sidebar": {
       "home": "Home",
+      "graph": "Gráfico mensal",
       "collapse": "Diminuir Sidebar",
       "logout": "Sair"
     },

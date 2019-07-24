@@ -12,6 +12,8 @@ import { Observable } from 'rxjs';
 
 export class ActionService {
   private BACKEND_URL = environment.apiUrl + "/ponto.json";
+  private PUT_BACKEND_URL = environment.apiUrl + "/ponto/";
+
 
   constructor(private utils: UtilsService, private http: HttpClient) {}
 
@@ -20,10 +22,14 @@ export class ActionService {
   }
 
   updateDay(ponto) {
-    return this.http.put(this.BACKEND_URL, ponto);
+    return this.http.put(this.PUT_BACKEND_URL + ponto.id + ".json", ponto);
   }
 
   getDay(ponto) {
+    return this.http.get<Ponto>(this.BACKEND_URL, ponto);
+  }
+
+  getAllByMonth(ponto) {
     return this.http.get<Ponto>(this.BACKEND_URL, ponto);
   }
 

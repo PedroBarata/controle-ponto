@@ -30,7 +30,8 @@ export class DefaultHomeComponent implements OnInit {
       id: undefined,
       userId: this.userId,
       entrada: now,
-      status: Status.Started
+      status: Status.Started,
+      mes: new Date(now).getMonth()
     };
     this.actionService.getDay(data).subscribe(response => {
       const val: Ponto = JSON.parse(JSON.stringify(response));
@@ -55,15 +56,17 @@ export class DefaultHomeComponent implements OnInit {
 
   start(now: string) {
     const newPonto: Ponto = {
-      id: undefined,
+      id: null,
       entrada: now,
       userId: this.userId,
-      status: Status.Started
+      status: Status.Started,
+      mes: new Date(now).getMonth()
     };
+
     this.actionService.onStartDay(newPonto).subscribe(response => {
-      const val: Ponto = JSON.parse(JSON.stringify(response));
+      const val = JSON.parse(JSON.stringify(response));
       console.log("[STARTED]", val);
-      this.ponto = val;
+      this.ponto = {...newPonto, id: val.name};
     });
   }
 
@@ -73,7 +76,6 @@ export class DefaultHomeComponent implements OnInit {
       inicioAlmoco: now,
       status: Status.Paused
     };
-
     this.actionService.updateDay(newPonto).subscribe(response => {
       const val: Ponto = JSON.parse(JSON.stringify(response));
       console.log("[PAUSED]", val);

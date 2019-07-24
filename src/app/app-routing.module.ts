@@ -26,6 +26,11 @@ const routes: Routes = [
             path: "home",
             loadChildren: "./views/home/home.module#HomeModule",
             canActivate: [AuthGuard]
+          },
+          {
+            path: "graph",
+            loadChildren: "./views/graph/graph.module#GraphModule",
+            canActivate: [AuthGuard]
           }
         ]
       }

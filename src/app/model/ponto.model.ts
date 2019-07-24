@@ -13,4 +13,5 @@ export interface Ponto {
   status: Status;
   inicioAlmoco?: string;
   voltaAlmoco?: string;
+  mes: number;
 }
