@@ -1,27 +1,31 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { TranslateModule } from "@ngx-translate/core";
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { PageSubheaderComponent } from './components/page-subheader/page-subheader.component';
-import { NotificationComponent } from './components/notification/notification.component';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
+import { HttpClientModule, HttpClient } from "@angular/common/http";
+import { NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
+import { PageSubheaderComponent } from "./components/page-subheader/page-subheader.component";
+import { NotificationComponent } from "./components/notification/notification.component";
+import { Ng2GoogleChartsModule } from "ng2-google-charts";
+import { StatModule } from "./shared/modules";
 
 const MODULES = [
-  FormsModule, ReactiveFormsModule, RouterModule,
-  HttpClientModule, TranslateModule, NgbDropdownModule
+  FormsModule,
+  ReactiveFormsModule,
+  RouterModule,
+  HttpClientModule,
+  TranslateModule,
+  NgbDropdownModule,
+  Ng2GoogleChartsModule,
+  StatModule
 ];
 
-const SERVICES = [
-  HttpClient,
-];
+const SERVICES = [HttpClient];
 
-const DIRECTIVES = [
-];
+const DIRECTIVES = [];
 
-const PIPES = [
-];
+const PIPES = [];
 
 const COMPONENTS = [
   PageSubheaderComponent,
@@ -35,4 +39,4 @@ const COMPONENTS = [
   exports: [MODULES, COMPONENTS, DIRECTIVES, PIPES],
   providers: [SERVICES]
 })
-export class SharedModule { }
+export class SharedModule {}

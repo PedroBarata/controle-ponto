@@ -4,7 +4,7 @@
       type="button"
       *ngIf="!isStarted"
       class="btn btn-lg btn-success"
-      [disabled]="ponto?.saida"
+      [disabled]="isDisabled"
       (click)="onClickButton(status.Started)"
     >
       <i class="fa fa-play"></i>

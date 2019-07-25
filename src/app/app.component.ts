@@ -12,10 +12,10 @@ import { AuthService } from './services/auth.service';
 export class AppComponent implements OnInit, OnDestroy {
   title = "controle-ponto";
 
-  isLoading = false;
+  isLoading: boolean;
   loadingStatusSub: Subscription;
 
-  constructor(private utils: UtilsService, private authService: AuthService) {}
+  constructor(private utils: UtilsService) {}
 
   ngOnInit() {
     this.loadingStatusSub = this.utils

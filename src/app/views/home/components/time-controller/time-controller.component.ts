@@ -10,6 +10,7 @@ export class TimeControllerComponent implements OnInit {
   @Output() action = new EventEmitter<Status>();
   private _ponto: Ponto;
   public isStarted: boolean = false;
+  public isDisabled = false;
   constructor() {}
 
   ngOnInit() {}
@@ -17,13 +18,19 @@ export class TimeControllerComponent implements OnInit {
   @Input()
   set ponto(value: Ponto) {
     this._ponto = value;
-
-    if (
-      this.ponto &&
-      (this.ponto.status === Status.Started ||
-        this.ponto.status === Status.Returned)
-    ) {
-      this.isStarted = true;
+    if (this._ponto) {
+      if (
+        this._ponto.status === Status.Started ||
+        this._ponto.status === Status.Returned
+      ) {
+        this.isStarted = true;
+      }
+      if (!this._ponto.saida) {
+        this.isDisabled = false;
+      }
+      if (this._ponto.status === Status.Stopped) {
+        this.isDisabled = true;
+      }
     }
   }
 
@@ -42,7 +49,7 @@ export class TimeControllerComponent implements OnInit {
   }
 
   checkStartedOrReturned(ponto: Ponto) {
-    if(ponto.status === Status.Paused) {
+    if (ponto.status === Status.Paused) {
       return Status.Returned;
     } else {
       return Status.Started;

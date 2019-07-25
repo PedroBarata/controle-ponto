@@ -13,7 +13,7 @@ export class DefaultHomeComponent implements OnInit {
   public notification: NotificationUI;
   public ponto: Ponto;
   private userId: string;
-
+  private token: string;
   constructor(
     private actionService: ActionService,
     private authService: AuthService
@@ -21,27 +21,39 @@ export class DefaultHomeComponent implements OnInit {
 
   ngOnInit() {
     this.userId = this.authService.getUserId();
+    this.token = this.authService.getToken();
     this.checkInitializedDay();
   }
 
   checkInitializedDay() {
-    const now = new Date().toISOString();
+    const inicioDia = new Date();
+    inicioDia.setHours(0, 0);
+    inicioDia.toISOString();
+
+    const fimDia = new Date();
+    fimDia.setHours(23, 59);
+    fimDia.toISOString();
+
     const data: Ponto = {
-      id: undefined,
+      id: null,
+      entrada: inicioDia.toISOString(),
+      saida: fimDia.toISOString(),
       userId: this.userId,
-      entrada: now,
       status: Status.Started,
-      mes: new Date(now).getMonth()
+      mes: inicioDia.getMonth()
     };
-    this.actionService.getDay(data).subscribe(response => {
-      const val: Ponto = JSON.parse(JSON.stringify(response));
-      this.ponto = { ...val };
+    this.actionService.getDay(data, this.token).subscribe(response => {
+      const val: Ponto[] = Object.values(response);
+        console.log(val);
+
+       this.ponto = { ...val[0] };
+       console.log(this.ponto);
+
     });
   }
 
   onSubmitAction(status: Status) {
     const now = new Date().toISOString();
-
     if (status === Status.Started) {
       this.start(now);
     } else if (status === Status.Paused) {
@@ -55,6 +67,7 @@ export class DefaultHomeComponent implements OnInit {
   }
 
   start(now: string) {
+
     const newPonto: Ponto = {
       id: null,
       entrada: now,
@@ -63,10 +76,10 @@ export class DefaultHomeComponent implements OnInit {
       mes: new Date(now).getMonth()
     };
 
-    this.actionService.onStartDay(newPonto).subscribe(response => {
+    this.actionService.onStartDay(newPonto, this.token).subscribe(response => {
       const val = JSON.parse(JSON.stringify(response));
       console.log("[STARTED]", val);
-      this.ponto = {...newPonto, id: val.name};
+      this.ponto = { ...newPonto, id: val.name };
     });
   }
 
@@ -76,7 +89,7 @@ export class DefaultHomeComponent implements OnInit {
       inicioAlmoco: now,
       status: Status.Paused
     };
-    this.actionService.updateDay(newPonto).subscribe(response => {
+    this.actionService.updateDay(newPonto, this.token).subscribe(response => {
       const val: Ponto = JSON.parse(JSON.stringify(response));
       console.log("[PAUSED]", val);
       this.ponto = val;
@@ -90,7 +103,7 @@ export class DefaultHomeComponent implements OnInit {
       status: Status.Returned
     };
 
-     this.actionService.updateDay(newPonto).subscribe(response => {
+    this.actionService.updateDay(newPonto, this.token).subscribe(response => {
       const val: Ponto = JSON.parse(JSON.stringify(response));
       console.log("[RETURNED]", val);
       this.ponto = val;
@@ -104,11 +117,10 @@ export class DefaultHomeComponent implements OnInit {
       status: Status.Stopped
     };
 
-    this.actionService.updateDay(newPonto).subscribe(response => {
+    this.actionService.updateDay(newPonto, this.token).subscribe(response => {
       const val: Ponto = JSON.parse(JSON.stringify(response));
       console.log("[STOPED]", val);
       this.ponto = val;
     });
   }
-
 }

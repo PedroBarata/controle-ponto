@@ -1,19 +1,26 @@
-<div class="card text-white bg-{{bgClass}}">
-    <div class="card-header">
-        <div class="row">
-            <div class="col col-xs-3">
-                <i class="fa {{icon}} fa-5x"></i>
-            </div>
-            <div class="col col-xs-9 text-right">
-                <div class="d-block huge">{{count}}</div>
-                <div class="d-block">{{label}}</div>
-            </div>
+<div class="card text-white bg-{{ bgClass }}">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-3 col-xs-6">
+        <i class="fa {{ icon }} fa-5x"></i>
+      </div>
+      <div class="col-4 col-xs-6 text-center">
+        <div class="d-block huge">
+          Relação de horas trabalhadas/total de horas
         </div>
+      </div>
+      <div class="col-5 col-xs-6 text-center">
+      <div class="d-block">
+          <span class="title-hours">{{worked.toFixed(1)}}/</span>
+          <span class="subtitle-hours">{{total}}</span>
+        </div>
+      </div>
     </div>
-    <div class="card-footer">
+  </div>
+  <!--   <div class="card-footer">
         <span class="float-left">View Details {{data}}</span>
         <a href="javascript:void(0)" class="float-right card-inverse">
             <span ><i class="fa fa-arrow-circle-right"></i></span>
         </a>
-    </div>
+    </div> -->
 </div>
