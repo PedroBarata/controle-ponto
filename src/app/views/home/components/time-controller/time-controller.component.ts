@@ -39,7 +39,7 @@ export class TimeControllerComponent implements OnInit {
   }
 
   onClickButton(status) {
-    if (status === Status.Started || status === Status.Returned) {
+    if (this.ponto && (status === Status.Started || status === Status.Returned)) {
       status = this.checkStartedOrReturned(this._ponto);
       this.isStarted = true;
     } else {

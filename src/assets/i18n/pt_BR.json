@@ -29,7 +29,20 @@
         "lunch": "Almoço?",
         "start_lunch": "Início Almoço",
         "end_lunch": "Fim Almoço",
-        "send": "Enviar"
+        "send": "Enviar",
+        "submit_time": "Perfeito, dia salvo com sucesso",
+        "errors": {
+          "ponto_exists": "Oops! Já existe um registro de ponto neste dia",
+          "diff_time": "Oops! Há algo de errado com seus horários de entrada/saída"
+        }
+      },
+      "graph": {
+        "title": "Gráfico",
+        "hours_relation": "Relação de horas trabalhadas/total de horas",
+        "worked_hours": "Horas trabalhadas",
+        "total_hours": "Total de horas",
+        "day": "Dia",
+        "lunch_hours": "Horas de almoço"
       }
     },
     "months": {
@@ -54,7 +67,7 @@
       "custom_token_mismatch": "O Token corresponde à outra conta atualmente",
       "invalid_credential": "Senha inválida",
       "wrong_password": "Senha errada",
-      "user_mismatch":"A senha informada não corresponde ao usuário previamente logado",
+      "user_mismatch": "A senha informada não corresponde ao usuário previamente logado",
       "account_exists_with_different_credential": "Este e-mail já existe, com outra senha",
       "email_already_in_use": "Este e-mail já se encontra em uso",
       "email_exists": "Este e-mail já existe",

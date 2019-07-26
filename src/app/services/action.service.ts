@@ -12,11 +12,10 @@ import { Observable } from "rxjs";
 export class ActionService {
   private BACKEND_URL = environment.apiUrl + "/ponto.json?auth=";
   private PUT_BACKEND_URL = environment.apiUrl + "/ponto/";
-
   constructor(private utils: UtilsService, private http: HttpClient) {}
 
   onStartDay(ponto: Ponto, token) {
-    return this.http.post(this.BACKEND_URL + token, ponto);
+    return this.http.post(this.BACKEND_URL + token + '"', ponto);
   }
 
   updateDay(ponto: Ponto, token) {
@@ -26,22 +25,17 @@ export class ActionService {
     );
   }
 
-  getDay(ponto: Ponto, token) {
-    return this.http.get<Ponto>(
-      this.BACKEND_URL +
-        token +
-        '&orderBy="entrada"&startAt="' +
-        ponto.entrada +
-        '"&endAt="' +
-        ponto.saida +
-        '"'
-    );
+  getDay(userId: string, token: string) {
+    const queryParams =
+      token + '&orderBy="userId"' + '&equalTo="' + userId + '"';
+
+    return this.http.get<Ponto>(this.BACKEND_URL + queryParams);
   }
 
-  getAllByMonth(ponto: Ponto, token) {
-    return this.http.get<Ponto>(
-      this.BACKEND_URL + token + '&orderByDesc="entrada"&mes="' + ponto.mes + '"'
-    );
+  getAllByMonth(userId: string, token: string) {
+    const queryParams =
+      token + '&orderBy="userId"' + '&equalTo="' + userId + '"';
+    return this.http.get<Ponto>(this.BACKEND_URL + queryParams);
   }
 
   sendInfo(status: Status) {

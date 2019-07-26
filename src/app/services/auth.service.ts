@@ -16,6 +16,7 @@ export class AuthService {
   private userId: string;
   private displayName: string;
   private authListener = new Subject<boolean>();
+  private refreshToken: string;
   constructor(private http: HttpClient) {}
 
   getToken() {
@@ -57,7 +58,7 @@ export class AuthService {
     };
     const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`;
 
-   return this.http.post(url, authData);
+    return this.http.post(url, authData);
   }
 
   loginHandler(response) {
@@ -67,27 +68,37 @@ export class AuthService {
     this.setAuthTimer(expiresInDuration);
     this.token = token;
     if (token) {
-      this.isAuthenticated = true;
-      const now = new Date();
-      this.userId = response.localId;
-      this.displayName = response.displayName;
-
-      /* Soma-se a expiração à data atual, em milisegundos */
-      const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
-
-      this.authListener.next(true);
-      this.saveAuthData(token, expirationDate, this.userId,  this.displayName);
+      this.configUserData(token, response, expiresInDuration);
     }
+  }
+
+  configUserData(token, response, expiresInDuration) {
+    this.isAuthenticated = true;
+    const now = new Date();
+    this.userId = response.localId;
+    this.displayName = response.displayName;
+    this.refreshToken = response.refreshToken;
+    /* Soma-se a expiração à data atual, em milisegundos */
+    const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
+
+    this.authListener.next(true);
+    this.saveAuthData(
+      token,
+      expirationDate,
+      this.userId,
+      this.displayName,
+      this.refreshToken
+    );
   }
 
   logout() {
     this.token = null;
     this.userId = null;
     this.isAuthenticated = false;
+    this.refreshToken = null;
     this.authListener.next(false);
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
-
   }
 
   autoAuthUser() {
@@ -104,31 +115,61 @@ export class AuthService {
       this.isAuthenticated = true;
       this.userId = authInformation.userId;
       this.displayName = authInformation.displayName;
-
+      this.refreshToken = authInformation.refreshToken;
       this.setAuthTimer(
         expiresIn / 1000
       ); /* divide por 1000 pois depois ele multiplica, e já está em ms */
       this.authListener.next(true);
     }
   }
-
   private setAuthTimer(duration: number) {
     console.log("Setting timer:", duration);
 
     this.tokenTimer = setTimeout(() => {
-      // Ao inves do logout, fazer uma nova requisicao com o refreshtoken
-    }, duration * 1000);
+      const refreshData = {
+        grant_type: "refresh_token",
+        refresh_token: this.refreshToken
+      };
+      console.log("[refreshing]");
+
+      const url = `https://securetoken.googleapis.com/v1/token?key=${API_KEY}`;
+      this.http.post(url, refreshData).subscribe(response => {
+        this.refreshTokenHandler(response);
+      });
+    }, (duration * 1000));
   }
 
-  /* Aqui é interessante passar um Date e não um número,
-  que é um número relativo e não teremos uma ideia clara
-  da data quando voltarmos no futuro */
-  private saveAuthData(token: string, expirationDate: Date, userId: string, displayName) {
+  private refreshTokenHandler(response) {
+    const formattedResp = JSON.parse(JSON.stringify(response));
+    const authResponse = {
+      accessToken: formattedResp.access_token,
+      expiresIn: formattedResp.expires_in,
+      idToken: formattedResp.id_token,
+      refreshToken: formattedResp.refresh_token,
+      localId: formattedResp.user_id,
+      displayName: this.displayName
+    };
+
+    const token = authResponse.idToken;
+    const expiresInDuration = authResponse.expiresIn;
+    this.setAuthTimer(expiresInDuration);
+    if (token) {
+      this.configUserData(token, authResponse, expiresInDuration);
+    }
+  }
+
+  private saveAuthData(
+    token: string,
+    expirationDate: Date,
+    userId: string,
+    displayName: string,
+    refreshToken: string
+  ) {
     localStorage.setItem("token", token);
     localStorage.setItem("expiration", expirationDate.toISOString());
     localStorage.setItem("userId", userId);
     localStorage.setItem("displayName", displayName);
-
+    localStorage.setItem("refreshToken", refreshToken);
   }
 
   private clearAuthData() {
@@ -136,6 +177,7 @@ export class AuthService {
     localStorage.removeItem("expiration");
     localStorage.removeItem("userId");
     localStorage.removeItem("displayName");
+    localStorage.removeItem("refreshToken");
   }
 
   private getAuthData() {
@@ -143,7 +185,7 @@ export class AuthService {
     const expirationDate = localStorage.getItem("expiration");
     const userId = localStorage.getItem("userId");
     const displayName = localStorage.getItem("displayName");
-
+    const refreshToken = localStorage.getItem("refreshToken");
     if (!token || !expirationDate) {
       return;
     }
@@ -151,7 +193,8 @@ export class AuthService {
       token: token,
       userId: userId,
       expirationDate: new Date(expirationDate),
-      displayName: displayName
+      displayName: displayName,
+      refreshToken: refreshToken
     };
   }
 }

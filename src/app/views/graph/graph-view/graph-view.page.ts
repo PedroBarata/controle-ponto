@@ -4,6 +4,7 @@ import { ActionService } from "src/app/services/action.service";
 import { AuthService } from "src/app/services/auth.service";
 import { GoogleChartInterface } from "ng2-google-charts/google-charts-interfaces";
 import { UtilsService } from "src/app/services/utils.service";
+import { TranslateService } from "@ngx-translate/core";
 @Component({
   selector: "app-graph",
   templateUrl: "./graph-view.page.html",
@@ -20,48 +21,61 @@ export class GraphViewPage implements OnInit {
   constructor(
     private actionService: ActionService,
     private authService: AuthService,
-    private utils: UtilsService
+    private utils: UtilsService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
+    this.configGraph();
     this.userId = this.authService.getUserId();
     this.token = this.authService.getToken();
 
     const now = new Date();
-    const ponto: Ponto = {
-      id: undefined,
-      status: undefined,
-      userId: this.userId,
-      mes: now.getMonth()
-    };
 
+    this.actionService
+      .getAllByMonth(this.userId, this.token)
+      .subscribe(response => {
+        let val: Ponto[] = Object.entries(response).map(entry => Object.assign(entry[1], { id: entry[0] }));
+
+        //Object.keys(response).map(key => response[key])
+         val = val.filter(
+          ponto => ponto.mes === now.getMonth()
+        );
+          console.log(val);
+
+        val.sort((p1, p2) => (p1.entrada < p2.entrada ? -1 : 1));
+        this.pontoList = val;
+        this.totalHoursMonth = this.getWorkingHoursByMonth(now.getMonth());
+        this.dataHandler();
+        this.isLoading = false;
+      });
+  }
+
+  configGraph() {
     this.data = {
       chartType: "Bar",
-      dataTable: [["Dia", "Horas de trabalho", "Horas de almoço"]],
+      dataTable: [
+        [
+          this.translate.instant("app.views.graph.day"),
+          this.translate.instant("app.views.graph.worked_hours"),
+          this.translate.instant("app.views.graph.lunch_hours")
+        ]
+      ],
       options: {
         chart: {
-          title: "Horas trabalhadas"
+          title: this.translate.instant("app.views.graph.worked_hours")
         }
       }
     };
-
-    this.actionService.getAllByMonth(ponto, this.token).subscribe(response => {
-      const val: Ponto[] = Object.values(response);
-      val.sort((p1, p2) => (p1.entrada < p2.entrada ? -1 : 1));
-      this.pontoList = val;
-      this.totalHoursMonth = this.getWorkingHoursByMonth(this.pontoList[0].mes);
-      this.dataHandler();
-      this.isLoading = false;
-    });
   }
 
   dataHandler() {
     this.pontoList.forEach(ponto => {
-      this.getHorasTrabalhadas(ponto);
+      this.getWorkedHours(ponto);
     });
   }
 
-  getHorasTrabalhadas(ponto: Ponto) {
+  getWorkedHours(ponto: Ponto) {
     const entradaDate = new Date(ponto.entrada);
     const saidaDate = new Date(ponto.saida);
     let inicioAlmocoDate;
@@ -71,21 +85,21 @@ export class GraphViewPage implements OnInit {
     if (ponto.inicioAlmoco) {
       inicioAlmocoDate = new Date(ponto.inicioAlmoco);
       voltaAlmocoDate = new Date(ponto.voltaAlmoco);
-      const horasPreAlmoco = this.calculaHorasEntreDatas(
+      const horasPreAlmoco = this.calcHoursBetweenDates(
         inicioAlmocoDate,
         entradaDate
       );
-      const horasPosAlmoco = this.calculaHorasEntreDatas(
+      const horasPosAlmoco = this.calcHoursBetweenDates(
         saidaDate,
         voltaAlmocoDate
       );
-      horasAlmoco = this.calculaHorasEntreDatas(
+      horasAlmoco = this.calcHoursBetweenDates(
         voltaAlmocoDate,
         inicioAlmocoDate
       );
       horasTrabalhadas = horasPosAlmoco + horasPreAlmoco;
     } else {
-      horasTrabalhadas = this.calculaHorasEntreDatas(saidaDate, entradaDate);
+      horasTrabalhadas = this.calcHoursBetweenDates(saidaDate, entradaDate);
     }
     this.totalHoursWorked += horasTrabalhadas;
 
@@ -96,7 +110,7 @@ export class GraphViewPage implements OnInit {
     ]);
   }
 
-  calculaHorasEntreDatas(date1: Date, date2: Date) {
+  calcHoursBetweenDates(date1: Date, date2: Date) {
     if (date1 > date2) {
       return (date1.getTime() - date2.getTime()) / (1000 * 60 * 60);
     } else {
@@ -115,10 +129,7 @@ export class GraphViewPage implements OnInit {
   getWorkingHoursByMonth(month: number) {
     let result = 0;
     const startDate = new Date(new Date().getFullYear(), month, 1);
-    console.log("[start]", startDate);
-
     const endDate = new Date(new Date().getFullYear(), month + 1, 0);
-    console.log("[end]",endDate);
 
     var currentDate = startDate;
     while (currentDate <= endDate) {
@@ -128,6 +139,6 @@ export class GraphViewPage implements OnInit {
       currentDate.setDate(currentDate.getDate() + 1);
     }
 
-    return result*8;
+    return result * 8;
   }
 }

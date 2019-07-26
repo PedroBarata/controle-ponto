@@ -1,4 +1,4 @@
-<div class="row text-center" *ngIf="isLoading">
+<div class="row text-center mx-auto" *ngIf="isLoading">
   <div class="col col-12 m-auto">
     <div class="spinner-border text-dark"></div>
   </div>
@@ -8,14 +8,14 @@
     <app-stat
       [bgClass]="'primary'"
       [icon]="'fa-clock-o'"
-      [worked]="totalHoursWorked"
+      [worked]="!totalHoursWorked? 0 : totalHoursWorked"
       [total]="totalHoursMonth"
     ></app-stat>
   </div>
   <div class="col col-12">
     <div class="card mb-3">
       <div class="card-header">
-        Gráfico
+        {{'app.views.graph.title' | translate}}
       </div>
       <div class="card-body">
         <google-chart [data]="data"></google-chart>

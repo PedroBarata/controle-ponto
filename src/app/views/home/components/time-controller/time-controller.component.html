@@ -1,9 +1,9 @@
 <div class="row">
-  <div class="col-lg-12">
+  <div class="col-lg-12 text-center">
     <button
       type="button"
       *ngIf="!isStarted"
-      class="btn btn-lg btn-success"
+      class="btn btn-lg btn-success px-4 py-3 mr-3"
       [disabled]="isDisabled"
       (click)="onClickButton(status.Started)"
     >
@@ -12,7 +12,7 @@
 
     <button
       type="button"
-      class="btn btn-lg btn-warning"
+      class="btn btn-lg btn-warning  px-4 py-3 mr-3"
       *ngIf="isStarted"
       (click)="onClickButton(status.Paused)"
     >
@@ -22,7 +22,7 @@
     <button
       type="button"
       [disabled]="!isStarted"
-      class="btn btn-lg btn-danger"
+      class="btn btn-lg btn-danger  px-4 py-3 mr-3"
       (click)="onClickButton(status.Stopped)"
     >
       <i class="fa fa-stop"></i>

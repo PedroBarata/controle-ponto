@@ -19,7 +19,7 @@
         <div class="card-header">{{ "app.views.home.manual" | translate }}</div>
         <div class="card-body">
           <form [formGroup]="form" (ngSubmit)="onSubmitForm()" novalidate>
-            <div class="row m-auto">
+            <div class="row m-auto justify-content-center">
               <app-date-picker
                 [label]="'app.views.home.date' | translate"
                 [parentForm]="form"
@@ -67,9 +67,13 @@
             </fieldset>
             <div class="row m-auto text-center">
               <div class="col col-12 text-center pt-3">
-                <button type="submit" class="btn btn-primary ">
+                <button type="submit" *ngIf="!isLoading" class="btn btn-primary" [disabled]="form.invalid">
                   {{ "app.views.home.send" | translate }}
                 </button>
+                <button class="btn btn-primary" *ngIf="isLoading"  type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    {{ "app.views.home.send" | translate }}
+                  </button>
               </div>
             </div>
           </form>
