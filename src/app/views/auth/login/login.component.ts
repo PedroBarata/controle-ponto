@@ -23,12 +23,11 @@ export class LoginComponent implements OnInit {
 
   onSubmitForm() {
     const user = this.form.value;
-    console.log( this.form.get('email').hasError);
+    //console.log( this.form.get('email').hasError);
 
     this.utils.onLoading();
     this.authService.login(user).subscribe(
       response => {
-        console.log(response);
 
         this.authService.loginHandler(response);
         this.router.navigate(["/app/home"]);

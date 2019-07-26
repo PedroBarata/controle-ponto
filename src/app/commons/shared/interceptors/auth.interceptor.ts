@@ -17,7 +17,6 @@ export class AuthInterceptor implements HttpInterceptor {
       "Content-Type": "application/json",
       Authorization: "key=" + authToken
     });
-    console.log(headers);
 
     const authRequest = req.clone({
       headers: headers

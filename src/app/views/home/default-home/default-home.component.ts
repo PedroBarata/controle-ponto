@@ -50,14 +50,12 @@ export class DefaultHomeComponent implements OnInit {
   checkInitializedDay() {
     this.actionService.getDay(this.userId, this.token).subscribe(response => {
       const val: Ponto[] = Object.values(response);
-      console.log(val);
       this.ponto = val.find((ponto: Ponto) => {
         const entradaDate = new Date(ponto.entrada);
         if (this.checkDate(entradaDate, new Date())) {
           return true;
         }
       });
-      console.log(this.ponto);
     });
   }
 
@@ -98,7 +96,7 @@ export class DefaultHomeComponent implements OnInit {
 
     this.actionService.onStartDay(newPonto, this.token).subscribe(response => {
       const val = JSON.parse(JSON.stringify(response));
-      console.log("[STARTED]", val);
+      //console.log("[STARTED]", val);
       this.ponto = { ...newPonto, id: val.name };
     });
   }
@@ -111,7 +109,7 @@ export class DefaultHomeComponent implements OnInit {
     };
     this.actionService.updateDay(newPonto, this.token).subscribe(response => {
       const val: Ponto = JSON.parse(JSON.stringify(response));
-      console.log("[PAUSED]", val);
+      //console.log("[PAUSED]", val);
       this.ponto = val;
     });
   }
@@ -125,7 +123,7 @@ export class DefaultHomeComponent implements OnInit {
 
     this.actionService.updateDay(newPonto, this.token).subscribe(response => {
       const val: Ponto = JSON.parse(JSON.stringify(response));
-      console.log("[RETURNED]", val);
+      //console.log("[RETURNED]", val);
       this.ponto = val;
     });
   }
@@ -136,11 +134,10 @@ export class DefaultHomeComponent implements OnInit {
       saida: now,
       status: Status.Stopped
     };
-    console.log(newPonto);
 
     this.actionService.updateDay(newPonto, this.token).subscribe(response => {
       const val: Ponto = JSON.parse(JSON.stringify(response));
-      console.log("[STOPED]", val);
+      //console.log("[STOPED]", val);
       this.ponto = val;
     });
   }
@@ -222,7 +219,6 @@ export class DefaultHomeComponent implements OnInit {
   checkPontoExists(date: Date) {
     if (this.ponto) {
       const pontoDate = new Date(this.ponto.entrada);
-      console.log(this.checkDate(date, pontoDate));
 
       if (this.checkDate(date, pontoDate)) {
         return true;

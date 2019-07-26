@@ -15,7 +15,6 @@ export class NotificationComponent {
   @Input()
   set notification(value: NotificationUI) {
     this._notification = value;
-    console.log(value);
 
     if (this._notification) {
       this.checkType(this._notification.type);

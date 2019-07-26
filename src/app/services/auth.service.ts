@@ -123,14 +123,14 @@ export class AuthService {
     }
   }
   private setAuthTimer(duration: number) {
-    console.log("Setting timer:", duration);
+   // console.log("Setting timer:", duration);
 
     this.tokenTimer = setTimeout(() => {
       const refreshData = {
         grant_type: "refresh_token",
         refresh_token: this.refreshToken
       };
-      console.log("[refreshing]");
+      //console.log("[refreshing]");
 
       const url = `https://securetoken.googleapis.com/v1/token?key=${API_KEY}`;
       this.http.post(url, refreshData).subscribe(response => {

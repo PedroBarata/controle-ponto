@@ -41,7 +41,6 @@ export class GraphViewPage implements OnInit {
          val = val.filter(
           ponto => ponto.mes === now.getMonth()
         );
-          console.log(val);
 
         val.sort((p1, p2) => (p1.entrada < p2.entrada ? -1 : 1));
         this.pontoList = val;

@@ -22,7 +22,6 @@ export class ErrorInterceptor implements HttpInterceptor {
         if(error.error.error) {
           errorMessage = error.error.error.message;
         }
-        console.log(errorMessage);
 
         errorMessage = this.errorService.formatErrorMessage(errorMessage);
         this.utils.onPresentNotification(errorMessage, TypeNotifcation.danger);

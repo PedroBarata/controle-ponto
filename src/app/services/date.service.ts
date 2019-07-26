@@ -24,7 +24,6 @@ export class DateService {
   constructor(private translate: TranslateService) {}
 
   formatHour = (date: Date) => {
-    console.log(date.getHours());
 
     if (date.getHours() >= 6 && date.getHours() < 12) {
       return this.translate.instant("app.views.home.morning");

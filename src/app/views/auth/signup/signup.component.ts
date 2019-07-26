@@ -27,7 +27,6 @@ export class SignupComponent implements OnInit {
     this.utils.onLoading();
     this.authService.createUser(user).subscribe(
       response => {
-        console.log(response);
 
         this.authService.loginHandler(response);
         this.router.navigate(["/app/home"]);
