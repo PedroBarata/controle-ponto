@@ -19,7 +19,17 @@
         "title": "Home",
         "morning": "Bom dia",
         "noon": "Boa tarde",
-        "night": "Boa noite"
+        "night": "Boa noite",
+        "automatico": "Faça seu dia automaticamente",
+        "manual": "Esqueceu de registrar? Preencha os campos abaixo",
+        "inicio_e_fim": "Inicio e fim",
+        "date": "Data",
+        "start": "Início",
+        "end": "Fim",
+        "lunch": "Almoço?",
+        "start_lunch": "Início Almoço",
+        "end_lunch": "Fim Almoço",
+        "send": "Enviar"
       }
     },
     "months": {

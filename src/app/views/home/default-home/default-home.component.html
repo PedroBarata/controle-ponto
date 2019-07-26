@@ -3,7 +3,9 @@
   <div class="row mx-auto">
     <div class="col col-6">
       <div class="card mb-3">
-        <div class="card-header">Date Picker</div>
+        <div class="card-header">
+          {{ "app.views.home.automatico" | translate }}
+        </div>
         <div class="card-body">
           <app-time-controller
             (action)="onSubmitAction($event)"
@@ -14,51 +16,51 @@
     </div>
     <div class="col col-6">
       <div class="card">
-        <div class="card-header">Date Picker</div>
+        <div class="card-header">{{ "app.views.home.manual" | translate }}</div>
         <div class="card-body">
           <form [formGroup]="form" (ngSubmit)="onSubmitForm()" novalidate>
             <div class="row m-auto">
               <app-date-picker
-                label="Data"
+                [label]="'app.views.home.date' | translate"
                 [parentForm]="form"
                 [controlName]="'date'"
                 dayTemplate="YYYY"
               ></app-date-picker>
             </div>
             <fieldset class="mb-3 text-center">
-              <legend>Inicio e fim</legend>
+              <legend>{{ "app.views.home.inicio_e_fim" | translate }}</legend>
               <div class="row mt-3">
                 <div class="col col-6">
                   <app-timepicker
-                    label="Inicio"
-                    [controlName]="'inicioTime'"
+                    [label]="'app.views.home.start' | translate"
+                    [controlName]="'entrada'"
                     [parentForm]="form"
                   ></app-timepicker>
                 </div>
                 <div class="col col-6">
                   <app-timepicker
-                    label="Final"
+                    [label]="'app.views.home.end' | translate"
                     [parentForm]="form"
-                    [controlName]="'fimTime'"
+                    [controlName]="'saida'"
                   ></app-timepicker>
                 </div>
               </div>
             </fieldset>
             <fieldset class="mb-3 text-center">
-              <legend>Almoço?</legend>
+              <legend>{{ "app.views.home.lunch" | translate }}</legend>
               <div class="row mt-3">
                 <div class="col col-6">
                   <app-timepicker
-                    label="Inicio Almoço"
-                    [controlName]="'inicioAlmocoTime'"
+                    [label]="'app.views.home.start_lunch' | translate"
+                    [controlName]="'inicioAlmoco'"
                     [parentForm]="form"
                   ></app-timepicker>
                 </div>
                 <div class="col col-6">
                   <app-timepicker
-                    label="Fim Almoço"
+                    [label]="'app.views.home.end_lunch' | translate"
                     [parentForm]="form"
-                    [controlName]="'fimAlmocoTime'"
+                    [controlName]="'voltaAlmoco'"
                   ></app-timepicker>
                 </div>
               </div>
@@ -66,7 +68,7 @@
             <div class="row m-auto text-center">
               <div class="col col-12 text-center pt-3">
                 <button type="submit" class="btn btn-primary ">
-                  Enviar
+                  {{ "app.views.home.send" | translate }}
                 </button>
               </div>
             </div>

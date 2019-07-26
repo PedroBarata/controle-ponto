@@ -23,14 +23,16 @@ export class DateService {
 
   constructor(private translate: TranslateService) {}
 
-  getHour = (date: Date) => {
-    if (date.getHours() < 12) {
+  formatHour = (date: Date) => {
+    console.log(date.getHours());
+
+    if (date.getHours() >= 6 && date.getHours() < 12) {
       return this.translate.instant("app.views.home.morning");
     }
     if (date.getHours() >= 12 && date.getHours() < 18) {
       return this.translate.instant("app.views.home.noon");
     } else {
-      return this.translate.instant("app.views.home.morning");
+      return this.translate.instant("app.views.home.night");
     }
   };
 

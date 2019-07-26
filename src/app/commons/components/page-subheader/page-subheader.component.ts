@@ -19,7 +19,7 @@ export class PageSubheaderComponent implements OnInit {
   ngOnInit() {
     const now = new Date();
     this.formatBreadCrumb(now);
-    this.subtitle = this.dateService.getHour(now);
+    this.subtitle = this.dateService.formatHour(now);
     this.displayName = this.authService.getDisplayName();
   }
 
