@@ -1,4 +1,77 @@
 <div class="container-fluid">
   <app-page-subheader page="home"></app-page-subheader>
-  <app-time-controller (action)="onSubmitAction($event)" [ponto]="ponto"></app-time-controller>
+  <div class="row mx-auto">
+    <div class="col col-6">
+      <div class="card mb-3">
+        <div class="card-header">Date Picker</div>
+        <div class="card-body">
+          <app-time-controller
+            (action)="onSubmitAction($event)"
+            [ponto]="ponto"
+          ></app-time-controller>
+        </div>
+      </div>
+    </div>
+    <div class="col col-6">
+      <div class="card">
+        <div class="card-header">Date Picker</div>
+        <div class="card-body">
+          <form [formGroup]="form" (ngSubmit)="onSubmitForm()" novalidate>
+            <div class="row m-auto">
+              <app-date-picker
+                label="Data"
+                [parentForm]="form"
+                [controlName]="'date'"
+              ></app-date-picker>
+            </div>
+            <fieldset class="mb-3 text-center">
+              <legend>Inicio e fim</legend>
+              <div class="row mt-3">
+                <div class="col col-6">
+                  <app-timepicker
+                    label="Inicio"
+                    [controlName]="'inicioTime'"
+                    [parentForm]="form"
+                  ></app-timepicker>
+                </div>
+                <div class="col col-6">
+                  <app-timepicker
+                    label="Final"
+                    [parentForm]="form"
+                    [controlName]="'fimTime'"
+                  ></app-timepicker>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="mb-3 text-center">
+              <legend>Almoço?</legend>
+              <div class="row mt-3">
+                <div class="col col-6">
+                  <app-timepicker
+                    label="Inicio Almoço"
+                    [controlName]="'inicioAlmocoTime'"
+                    [parentForm]="form"
+                  ></app-timepicker>
+                </div>
+                <div class="col col-6">
+                  <app-timepicker
+                    label="Fim Almoço"
+                    [parentForm]="form"
+                    [controlName]="'fimAlmocoTime'"
+                  ></app-timepicker>
+                </div>
+              </div>
+            </fieldset>
+            <div class="row m-auto text-center">
+              <div class="col col-12 text-center pt-3">
+                <button type="submit" class="btn btn-primary ">
+                  Enviar
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

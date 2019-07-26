@@ -9,6 +9,9 @@ import { PageSubheaderComponent } from "./components/page-subheader/page-subhead
 import { NotificationComponent } from "./components/notification/notification.component";
 import { Ng2GoogleChartsModule } from "ng2-google-charts";
 import { StatModule } from "./shared/modules";
+import { DatePickerComponent } from './layout/components/date-picker/date-picker.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TimepickerComponent } from './layout/components/timepicker/timepicker.component';
 
 const MODULES = [
   FormsModule,
@@ -18,7 +21,8 @@ const MODULES = [
   TranslateModule,
   NgbDropdownModule,
   Ng2GoogleChartsModule,
-  StatModule
+  StatModule,
+  NgbModule,
 ];
 
 const SERVICES = [HttpClient];
@@ -30,7 +34,9 @@ const PIPES = [];
 const COMPONENTS = [
   PageSubheaderComponent,
   NotificationComponent,
-  NotificationComponent
+  NotificationComponent,
+  DatePickerComponent,
+  TimepickerComponent
 ];
 
 @NgModule({

@@ -1,0 +1,21 @@
+<form class="form-inline mb-3">
+  <div class="input-group datepicker-input">
+    <label class="mr-3" [formGroup]="parentForm">{{ label }}</label>
+    <input
+      class="form-control"
+      placeholder="dd-mm-YYYY"
+      name="dp"
+      (value)="(date)"
+      [formControl]="parentForm.controls[controlName]"
+      ngbDatepicker
+      #d="ngbDatepicker"
+    />
+    <button
+      class="input-group-addon form-inline"
+      (click)="d.toggle()"
+      type="button"
+    >
+      <span class="fa fa-calendar"></span>
+    </button>
+  </div>
+</form>

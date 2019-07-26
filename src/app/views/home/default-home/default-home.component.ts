@@ -3,6 +3,7 @@ import { NotificationUI } from "src/app/model/notification.ui";
 import { Status, Ponto } from "src/app/model/ponto.model";
 import { ActionService } from "src/app/services/action.service";
 import { AuthService } from "src/app/services/auth.service";
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: "app-default-home",
@@ -14,12 +15,21 @@ export class DefaultHomeComponent implements OnInit {
   public ponto: Ponto;
   private userId: string;
   private token: string;
+  public form: FormGroup
   constructor(
     private actionService: ActionService,
     private authService: AuthService
   ) {}
 
   ngOnInit() {
+    this.form = new FormGroup({
+      date: new FormControl(null),
+      inicioTime: new FormControl(null),
+      fimTime: new FormControl(null),
+      inicioAlmocoTime: new FormControl(null),
+      fimAlmocoTime: new FormControl(null)
+    });
+
     this.userId = this.authService.getUserId();
     this.token = this.authService.getToken();
     this.checkInitializedDay();
@@ -122,5 +132,9 @@ export class DefaultHomeComponent implements OnInit {
       console.log("[STOPED]", val);
       this.ponto = val;
     });
+  }
+
+  onSubmitForm() {
+    console.log(this.form.value);
   }
 }
