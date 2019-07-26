@@ -22,8 +22,9 @@ export class DefaultHomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    const now = new Date();
     this.form = new FormGroup({
-      date: new FormControl(null),
+      date: new FormControl({year: now.getFullYear(), month: now.getMonth()+1, day: now.getDate()}),
       inicioTime: new FormControl(null),
       fimTime: new FormControl(null),
       inicioAlmocoTime: new FormControl(null),
