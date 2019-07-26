@@ -3,7 +3,28 @@
     "rules": "database.rules.json"
   },
   "hosting": {
-    "headers": [{ "key": "Cache-Control", "value": "no-cache" }],
-    "public": "./dist/controle-ponto"
+    "source": "/**",
+    "headers": [
+      {
+        "source": "/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(jpg|jpeg|gif|png|svg|js|css|eot|otf|ttf|ttc|woff|font.css)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=604800"
+          }
+        ]
+      }
+    ],
+    "public": "./dist/controle-ponto",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
   }
 }
