@@ -35,7 +35,8 @@ const routes: Routes = [
         ]
       }
     ]
-  }
+  },
+  { path: "**", component: BlankLayoutComponent }
 ];
 
 @NgModule({
