@@ -1,11 +1,11 @@
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
-import { BlankLayoutComponent } from "./blank-layout/blank-layout.component";
-import { AuthLayoutComponent } from "./auth-layout/auth-layout.component";
-import { AdminLayoutComponent } from "./admin-layout/admin-layout.component";
+import { BlankLayoutComponent } from './blank-layout/blank-layout.component';
+import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
+import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
 
-import { SharedModule } from "../shared.module";
+import { SharedModule } from '../shared.module';
 import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 
@@ -15,8 +15,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     AuthLayoutComponent,
     AdminLayoutComponent,
     HeaderComponent,
-    SidebarComponent
+    SidebarComponent,
   ],
-  imports: [CommonModule, SharedModule]
+  imports: [CommonModule, SharedModule],
 })
 export class LayoutModule {}

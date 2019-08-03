@@ -1,24 +1,16 @@
-import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { TranslateModule } from "@ngx-translate/core";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
-import { HttpClientModule, HttpClient } from "@angular/common/http";
-import {
-  NgbDropdownModule,
-  NgbCalendarGregorian,
-  NgbDatepickerI18n,
-  NgbCalendar,
-  NgbDateParserFormatter
-} from "@ng-bootstrap/ng-bootstrap";
-import { PageSubheaderComponent } from "./components/page-subheader/page-subheader.component";
-import { NotificationComponent } from "./components/notification/notification.component";
+import { NgbDateParserFormatter, NgbDropdownModule, NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { TranslateModule } from "@ngx-translate/core";
 import { Ng2GoogleChartsModule } from "ng2-google-charts";
-import { StatModule } from "./shared/modules";
+import { NotificationComponent } from "./components/notification/notification.component";
+import { PageSubheaderComponent } from "./components/page-subheader/page-subheader.component";
 import { DatePickerComponent } from "./layout/components/date-picker/date-picker.component";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { TimepickerComponent } from "./layout/components/timepicker/timepicker.component";
-import { NgbDatepickerI18nDefault } from "@ng-bootstrap/ng-bootstrap/datepicker/datepicker-i18n";
+import { StatModule } from "./shared/modules";
 import { CustomDateParserFormatter } from './shared/parsers/custom-date-parser-formatter';
 
 const MODULES = [
@@ -47,7 +39,7 @@ const COMPONENTS = [
   NotificationComponent,
   NotificationComponent,
   DatePickerComponent,
-  TimepickerComponent
+  TimepickerComponent,
 ];
 
 @NgModule({
