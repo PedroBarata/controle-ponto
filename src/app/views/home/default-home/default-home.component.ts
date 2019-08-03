@@ -1,16 +1,16 @@
-import { Component, OnInit } from "@angular/core";
-import { Status, Ponto } from "src/app/model/ponto.model";
-import { ActionService } from "src/app/services/action.service";
-import { AuthService } from "src/app/services/auth.service";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { UtilsService } from "src/app/services/utils.service";
-import { TranslateService } from "@ngx-translate/core";
-import { TypeNotifcation } from "src/app/model/notification.ui";
+import { Component, OnInit } from '@angular/core';
+import { Status, Ponto } from 'src/app/model/ponto.model';
+import { ActionService } from 'src/app/services/action.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UtilsService } from 'src/app/services/utils.service';
+import { TranslateService } from '@ngx-translate/core';
+import { TypeNotifcation } from 'src/app/model/notification.ui';
 
 @Component({
-  selector: "app-default-home",
-  templateUrl: "./default-home.component.html",
-  styleUrls: ["./default-home.component.scss"]
+  selector: 'app-default-home',
+  templateUrl: './default-home.component.html',
+  styleUrls: ['./default-home.component.scss'],
 })
 export class DefaultHomeComponent implements OnInit {
   public ponto: Ponto;
@@ -22,7 +22,7 @@ export class DefaultHomeComponent implements OnInit {
     private actionService: ActionService,
     private authService: AuthService,
     private utilsService: UtilsService,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) {}
 
   ngOnInit() {
@@ -32,14 +32,14 @@ export class DefaultHomeComponent implements OnInit {
         {
           year: now.getFullYear(),
           month: now.getMonth() + 1,
-          day: now.getDate()
+          day: now.getDate(),
         },
-        [Validators.required]
+        [Validators.required],
       ),
       entrada: new FormControl(null, [Validators.required]),
       saida: new FormControl(null, [Validators.required]),
       inicioAlmoco: new FormControl(null),
-      voltaAlmoco: new FormControl(null)
+      voltaAlmoco: new FormControl(null),
     });
 
     this.userId = this.authService.getUserId();
@@ -49,7 +49,8 @@ export class DefaultHomeComponent implements OnInit {
 
   checkInitializedDay() {
     this.actionService.getDay(this.userId, this.token).subscribe(response => {
-      const val: Ponto[] = Object.values(response);
+      const val: Ponto[] = this.utilsService.transformDataArray(response);
+
       this.ponto = val.find((ponto: Ponto) => {
         const entradaDate = new Date(ponto.entrada);
         if (this.checkDate(entradaDate, new Date())) {
@@ -91,13 +92,14 @@ export class DefaultHomeComponent implements OnInit {
       entrada: now,
       userId: this.userId,
       status: Status.Started,
-      mes: new Date(now).getMonth()
+      mes: new Date(now).getMonth(),
     };
 
     this.actionService.onStartDay(newPonto, this.token).subscribe(response => {
       const val = JSON.parse(JSON.stringify(response));
-      //console.log("[STARTED]", val);
+      console.log('[STARTED]', val);
       this.ponto = { ...newPonto, id: val.name };
+      console.log(this.ponto);
     });
   }
 
@@ -105,11 +107,11 @@ export class DefaultHomeComponent implements OnInit {
     const newPonto: Ponto = {
       ...this.ponto,
       inicioAlmoco: now,
-      status: Status.Paused
+      status: Status.Paused,
     };
     this.actionService.updateDay(newPonto, this.token).subscribe(response => {
       const val: Ponto = JSON.parse(JSON.stringify(response));
-      //console.log("[PAUSED]", val);
+      console.log('[PAUSED]', val);
       this.ponto = val;
     });
   }
@@ -118,26 +120,28 @@ export class DefaultHomeComponent implements OnInit {
     const newPonto: Ponto = {
       ...this.ponto,
       voltaAlmoco: now,
-      status: Status.Returned
+      status: Status.Returned,
     };
 
     this.actionService.updateDay(newPonto, this.token).subscribe(response => {
       const val: Ponto = JSON.parse(JSON.stringify(response));
-      //console.log("[RETURNED]", val);
+      console.log('[RETURNED]', val);
       this.ponto = val;
     });
   }
 
   stop(now: string) {
+    console.log(this.ponto);
+
     const newPonto: Ponto = {
       ...this.ponto,
       saida: now,
-      status: Status.Stopped
+      status: Status.Stopped,
     };
 
     this.actionService.updateDay(newPonto, this.token).subscribe(response => {
       const val: Ponto = JSON.parse(JSON.stringify(response));
-      //console.log("[STOPED]", val);
+      console.log('[STOPPED]', val);
       this.ponto = val;
     });
   }
@@ -146,53 +150,53 @@ export class DefaultHomeComponent implements OnInit {
     this.isLoading = true;
 
     const formattedDate = this.formatDateInputToDate(
-      this.form.get("date").value.year,
-      this.form.get("date").value.month,
-      this.form.get("date").value.day
+      this.form.get('date').value.year,
+      this.form.get('date').value.month,
+      this.form.get('date').value.day,
     );
     const ponto: Ponto = {
       id: null,
       userId: this.userId,
       entrada: this.formatTimeInputsToDate(
-        this.form.get("entrada").value.hour,
-        this.form.get("entrada").value.minute,
-        formattedDate
+        this.form.get('entrada').value.hour,
+        this.form.get('entrada').value.minute,
+        formattedDate,
       ),
       saida: this.formatTimeInputsToDate(
-        this.form.get("saida").value.hour,
-        this.form.get("saida").value.minute,
-        formattedDate
+        this.form.get('saida').value.hour,
+        this.form.get('saida').value.minute,
+        formattedDate,
       ),
       mes: formattedDate.getMonth(),
-      status: Status.Stopped
+      status: Status.Stopped,
     };
     if (
-      this.form.get("inicioAlmoco").value &&
-      this.form.get("voltaAlmoco").value
+      this.form.get('inicioAlmoco').value &&
+      this.form.get('voltaAlmoco').value
     ) {
       ponto.inicioAlmoco = this.formatTimeInputsToDate(
-        this.form.get("inicioAlmoco").value.hour,
-        this.form.get("inicioAlmoco").value.minute,
-        formattedDate
+        this.form.get('inicioAlmoco').value.hour,
+        this.form.get('inicioAlmoco').value.minute,
+        formattedDate,
       );
       ponto.voltaAlmoco = this.formatTimeInputsToDate(
-        this.form.get("voltaAlmoco").value.hour,
-        this.form.get("voltaAlmoco").value.minute,
-        formattedDate
+        this.form.get('voltaAlmoco').value.hour,
+        this.form.get('voltaAlmoco').value.minute,
+        formattedDate,
       );
     }
     if (this.checkPontoExists(formattedDate)) {
       this.utilsService.onPresentNotification(
-        this.translate.instant("app.views.home.errors.ponto_exists"),
-        TypeNotifcation.warning
+        this.translate.instant('app.views.home.errors.ponto_exists'),
+        TypeNotifcation.warning,
       );
       this.isLoading = false;
       return;
     }
-    if(!this.checkPontoValidity(ponto)) {
+    if (!this.checkPontoValidity(ponto)) {
       this.utilsService.onPresentNotification(
-        this.translate.instant("app.views.home.errors.diff_time"),
-        TypeNotifcation.warning
+        this.translate.instant('app.views.home.errors.diff_time'),
+        TypeNotifcation.warning,
       );
       this.isLoading = false;
       return;
@@ -202,17 +206,16 @@ export class DefaultHomeComponent implements OnInit {
       this.isLoading = false;
 
       this.utilsService.onPresentNotification(
-        this.translate.instant("app.views.home.submit_time"),
-        TypeNotifcation.success
+        this.translate.instant('app.views.home.submit_time'),
+        TypeNotifcation.success,
       );
 
-      if(this.checkDate(new Date(ponto.entrada), new Date())) {
+      if (this.checkDate(new Date(ponto.entrada), new Date())) {
         this.ponto = {
           ...ponto,
-          id: val
+          id: val,
         };
       }
-
     });
   }
 

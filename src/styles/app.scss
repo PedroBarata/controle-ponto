@@ -1,11 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
-@import "spinner";
-@import "utils";
-@import "rtl";
-@import "responsive";
+@import 'spinner';
+@import 'utils';
+@import 'rtl';
+@import 'responsive';
 
 @media print {
-    .breadcrumb {
-        display: none !important;
-    }
+  .breadcrumb {
+    display: none !important;
+  }
+}
+
+.top-50 {
+  top: 50%;
+}
+
+.left-50 {
+  left: 50%;
 }

@@ -1,8 +1,13 @@
 <div class="row">
-  <div class="col-lg-12">
+  <div class="col">
     <h1 class="page-header">
-      {{ "app.views." + page + ".title" | translate }}
-      <small>{{ subtitle + " " + displayName }}!</small>
+      <!-- {{ "app.views." + page + ".title" | translate }} -->
+      <div class="col">
+        <small>{{ subtitle + ' ' }}</small>
+      </div>
+      <div class="col">
+        <small>{{ displayName }}!</small>
+      </div>
     </h1>
     <ol class="breadcrumb">
       <li class="active"><i class="fa fa-calendar"></i> {{ breadcrumb }}</li>

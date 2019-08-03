@@ -27,8 +27,8 @@
         "start": "Início",
         "end": "Fim",
         "lunch": "Almoço?",
-        "start_lunch": "Início Almoço",
-        "end_lunch": "Fim Almoço",
+        "start_lunch": "Início do Almoço",
+        "end_lunch": "Final do Almoço",
         "send": "Enviar",
         "submit_time": "Perfeito, dia salvo com sucesso",
         "errors": {
